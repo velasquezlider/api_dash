@@ -53,3 +53,15 @@ WHERE YEAR(created_at) = 2024
 
 
 
+-- KPI-E3: INGRESOS TOTALES POR PERÍODO 
+/*
+
+  Fórmula    : SUM(nationals.IMPORTE) + SUM(internationals.PRECIO) por mes
+  Fuente     : Tablas nationals e internationals (campos IMPORTE y PRECIO)
+  Meta       : Definida por la gerencia financiera (baseline)
+  Frecuencia : Mensual / Anual
+  Descripción: Ingreso bruto generado por los servicios postales nacionales
+               e internacionales. Permite proyecciones y presupuesto.
+*/
+
+
