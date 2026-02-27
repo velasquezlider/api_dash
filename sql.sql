@@ -63,7 +63,6 @@ WHERE YEAR(created_at) = 2024
   Descripción: Ingreso bruto generado por los servicios postales nacionales
                e internacionales. Permite proyecciones y presupuesto.
 */
-
 SELECT 
     anio,
     mes,
@@ -73,14 +72,13 @@ SELECT
     
 FROM (
 
-    -- Ingresos Nacionales
+    -- Ingresos Nacionales (ahora desde packages)
     SELECT 
         YEAR(created_at) AS anio,
         MONTH(created_at) AS mes,
-        SUM(IMPORTE) AS total_nacional,
+        SUM(PRECIO) AS total_nacional,
         0 AS total_internacional
-    FROM nationals
-
+    FROM packages
     GROUP BY YEAR(created_at), MONTH(created_at)
 
     UNION ALL
@@ -92,7 +90,6 @@ FROM (
         0 AS total_nacional,
         SUM(PRECIO) AS total_internacional
     FROM internationals
-
     GROUP BY YEAR(created_at), MONTH(created_at)
 
 ) ingresos
