@@ -102,3 +102,44 @@ ORDER BY anio, mes;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*dash*/
+/*
+KPI-T1: TIEMPO PROMEDIO DE CICLO DE ENTREGA (TPCE)
+  Fórmula    : AVG(fecha_entrega - fecha_admision) en días
+  Fuente     : events (acción 'ADMISION' y 'ENTREGADO') agrupado por packages.CODIGO
+  Meta       : Envíos nacionales ≤ 3 días / Internacionales ≤ 15 días
+  Frecuencia : Semanal
+  Descripción: Mide el tiempo real desde la admisión hasta la entrega al
+               destinatario. Permite detectar cuellos de botella por etapa.
+*/
+
+
+-- TPCE usando solo la tabla packages
+
+SELECT
+    AVG(DATEDIFF( p.updated_at,p.created_at)) AS TPCE_dias
+FROM
+    packages p
+WHERE
+	p.ESTADO LIKE("ENTREGADO")
+    AND YEAR(p.created_at) = 2024
+    AND MONTH(p.created_at) = 5;    
+
+
