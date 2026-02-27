@@ -53,7 +53,7 @@ WHERE YEAR(created_at) = 2024
 
 
 
--- KPI-E3: INGRESOS TOTALES POR PERÍODO 
+-- KPI-E3: INGRESOS TOTALES POR PERÍODO    TODAVIA NO
 /*
 
   Fórmula    : SUM(nationals.IMPORTE) + SUM(internationals.PRECIO) por mes
@@ -63,5 +63,45 @@ WHERE YEAR(created_at) = 2024
   Descripción: Ingreso bruto generado por los servicios postales nacionales
                e internacionales. Permite proyecciones y presupuesto.
 */
+
+SELECT 
+    anio,
+    mes,
+    SUM(total_nacional) AS ingreso_nacional,
+    SUM(total_internacional) AS ingreso_internacional,
+    SUM(total_nacional + total_internacional) AS ingreso_total
+    
+FROM (
+
+    -- Ingresos Nacionales
+    SELECT 
+        YEAR(created_at) AS anio,
+        MONTH(created_at) AS mes,
+        SUM(IMPORTE) AS total_nacional,
+        0 AS total_internacional
+    FROM nationals
+
+    GROUP BY YEAR(created_at), MONTH(created_at)
+
+    UNION ALL
+
+    -- Ingresos Internacionales
+    SELECT 
+        YEAR(created_at) AS anio,
+        MONTH(created_at) AS mes,
+        0 AS total_nacional,
+        SUM(PRECIO) AS total_internacional
+    FROM internationals
+
+    GROUP BY YEAR(created_at), MONTH(created_at)
+
+) ingresos
+GROUP BY anio, mes
+ORDER BY anio, mes;
+
+
+
+
+
 
 
